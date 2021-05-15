@@ -267,7 +267,50 @@ void LOT::Temple::IDE::Editor::Input() {
             break;
         };
 
-        case KEY_UP: case KEY_LEFT: {
+        case KEY_UP: {
+            if (CurY == 0) break;
+
+            -- CurY;
+            int LineLength = (int)GetLineAt(contents, CurPos - 2).length();
+            CurPos -= CurX;
+
+            LineLength = (int)GetLineAt(contents, CurPos - 2).length();
+            if (CurX >= LineLength) {
+                CurX = LineLength > 0? LineLength - 1 : 0;
+                -- CurPos;
+            } else {
+                //CurPos -= LineLength - CurX;
+                CurPos -= LineLength - CurX;
+            };
+
+            if (CurY < RenderStart) -- RenderStart;
+
+            break;
+        };
+
+        case KEY_DOWN: {
+            int LineLength = (int)GetLineAt(contents, CurPos - 2).length();
+            if (CurPos + LineLength - CurX > (int)contents.length()) break;
+
+            ++ CurY;
+            int OldX = CurX;
+            CurPos += LineLength - CurX;
+
+            LineLength = (int)GetLineAt(contents, CurPos).length();
+            if (CurX >= LineLength) {
+                CurX = LineLength > 0? LineLength - 1 : 0;
+                CurPos += LineLength > 2? LineLength - 1 : 0;
+            } else {
+                //CurPos -= LineLength - CurX;
+                CurPos += OldX;
+            };
+
+            if (CurY - RenderStart + (RenderStart >= 1? 1 : 0) > WinY - 4) ++ RenderStart;
+
+            break;
+        };
+
+        case KEY_LEFT: {
             if (CurPos < 1) break;
 
             if (CurX < 1) {
@@ -284,7 +327,7 @@ void LOT::Temple::IDE::Editor::Input() {
             break;
         };
 
-        case KEY_DOWN: case KEY_RIGHT: {
+        case KEY_RIGHT: {
             if (CurPos + 1 > (int)contents.length()) break;
             if (CurX + 1 > (int)GetLineAt(contents, CurPos).length()) {
                 ++ CurPos;
