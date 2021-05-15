@@ -184,7 +184,7 @@ void App::ResetMainScr() {
     clear();
 
     mvprintw(1, 0, " _..__ ________  _________ _      _____\n|_|| _|  ___|  \\/\\_|| ___ \\ |    |  __/\n  ||| | |__ | . \\._/| |,/ /\\\\    | |__  \n  | |/|  _||| |\\/|_||  \\|/| \\|   |  _|| \n .| ||| |_``| | / _|| ||| | ||.._| |_|| \n \\\\_/\\\\____/\\_| ||_/\\_|   \\___||/\\____/ \n ||   |/        ||            //     ||\n");
-    printw(((std::string) "\n* Temple IDE\n* by LordOfTrident\n* current version " + VER + " (" + DATE + ") pre-release\n\n\nArrows - Navigate the cursor/Menu options\nCTRL + U - Update the current file\nCTRL + C - Fast exit\nESC - Switch between windows").c_str());
+    printw(((std::string) "\n* Temple IDE\n* by LordOfTrident\n* current version " + VER + " (" + DATE + ") pre-release\n\nArrows - Navigate the cursor/Menu options\nCTRL + U - Update the current file\nCTRL + C - Fast exit\nESC - Switch between windows").c_str());
 
     refresh();
 };
