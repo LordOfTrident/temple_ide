@@ -1,0 +1,10 @@
+Temple IDE
+
+For license details see LICENSE
+to compile, run this in your terminal:
+bash compile
+
+you will then find the executable under bin folder.
+
+If you are having errors while compiling, download ncurses with this command:
+sudo apt-get install libncurses5-dev libncursesw5-dev

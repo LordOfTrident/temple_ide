@@ -1,0 +1,8 @@
+#Release Compile
+
+mkdir -p bin
+if g++ -g src/*.cpp -o bin/tm-ide -O3 -s -m64 -Wall -std=c++17 -L/usr/X11R6/lib -lpthread -ldl -lncurses; then
+    printf "\e[0;32mCompiled Release\n";
+else
+    printf "\e[0;31mCompilation Failed\n";
+fi

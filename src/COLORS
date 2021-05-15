@@ -1,0 +1,31 @@
+#define cc_red "\e[0;31m"
+#define cc_RED "\e[1;31m"
+#define cc_yellow "\e[0;33m"
+#define cc_YELLOW "\e[1;33m"
+#define cc_green "\e[0;32m"
+#define cc_GREEN "\e[1;32m"
+#define cc_cyan "\e[0;36m"
+#define cc_CYAN "\e[1;36m"
+#define cc_blue "\e[0;34m"
+#define cc_BLUE "\e[1;34m"
+#define cc_magenta "\e[0;35m"
+#define cc_MAGENTA "\e[1;35m"
+#define cc_NC "\e[0m"
+
+#define COLOR_EDITOR 1
+#define COLOR_MENU 2
+#define COLOR_MENU_HIGHLIGHT 3
+#define COLOR_BACK 4
+#define COLOR_INPUTBAR 5
+
+#define COLOR_BRIGHT_WHITE 15
+#define COLOR_BRIGHT_YELLOW 11
+#define COLOR_BRIGHT_CYAN 14
+#define COLOR_BRIGHT_BLUE 12
+#define COLOR_BRIGHT_RED 13
+
+#define COLOR_KEYWORD 10
+#define COLOR_NUMBER 11
+#define COLOR_STRING 12
+#define COLOR_COMMENT 13
+#define COLOR_INDETIF 14

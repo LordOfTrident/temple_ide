@@ -1,0 +1,7 @@
+#include <iostream>
+#include <unistd.h>
+#include <string>
+#include <cstdint>
+#include <vector>
+#include <fstream>
+#include <ncurses.h>
