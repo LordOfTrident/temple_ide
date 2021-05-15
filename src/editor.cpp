@@ -111,7 +111,7 @@ void LOT::Temple::IDE::Editor::Draw() {
 
     int line = 0, y = RenderStart > 1? -1 : 0;
     bool str = false, comment = false, end = false;
-    RenderEnd = RenderStart + WinY - (RenderStart > 1? 3 : 3);
+    RenderEnd = RenderStart + WinY - (RenderStart > 0? 3 : 2);
     for (int i = 0; i < (int)contents.length(); ++ i) {
         switch (contents[i]) {
             case '\n': {
@@ -219,7 +219,7 @@ void LOT::Temple::IDE::Editor::Draw() {
     wrefresh(Position);
 
     //wmove(Contents, CurY, CurPos - (WinX - 2) * CurY);
-    wmove(Contents, CurY - RenderStart + (RenderStart >= 1? 1 : 0), CurX); //wprintw(Contents, " | x%i y%i s%i rs%i re%i", CurX, CurY, SAVE, RenderStart, RenderEnd);
+    wmove(Contents, CurY - RenderStart + (RenderStart >= 1? 1 : 0), CurX); //wprintw(Contents, " | x%i y%i s%i rs%i re%i", CurX, CurY, 0, RenderStart, RenderEnd);
     wrefresh(Contents);
 };
 
@@ -289,21 +289,49 @@ void LOT::Temple::IDE::Editor::Input() {
         };
 
         case KEY_DOWN: {
-            int LineLength = (int)GetLineAt(contents, CurPos - 2).length();
+            int PrevX = CurX, PrevY = CurY, PrevPos = CurPos;
+
+            int LineLength = (int)GetLineAt(contents, CurX > 0? CurPos - 1 : CurPos).length();
+            LineLength -= LineLength == 0? 0 : 1;
+
+            CurPos += LineLength - CurX;
+            ++ CurY;
+
+            LineLength = (int)GetLineAt(contents, CurPos + 1).length();
+            LineLength -= LineLength == 0? 0 : 1;
+            if (CurX >= LineLength) {
+                //CurX = LineLength > 0? LineLength - 1 : 0;
+                //-- CurPos;
+                CurPos += LineLength + 1;
+                CurX = LineLength;
+            } else {
+                //CurPos -= LineLength - CurX;
+                CurPos += CurX + 1;
+            };
+
+            if (CurPos > (int)contents.length()) {
+                CurX = PrevX;
+                CurY = PrevY;
+                CurPos = PrevPos;
+                
+                break;
+            };
+
+            /*int LineLength = (int)GetLineAt(contents, CurPos).length();
             if (CurPos + LineLength - CurX > (int)contents.length()) break;
 
             ++ CurY;
             int OldX = CurX;
-            CurPos += LineLength - CurX;
+            CurPos += LineLength < CurX? CurX : LineLength - CurX;
 
             LineLength = (int)GetLineAt(contents, CurPos).length();
-            if (CurX >= LineLength) {
+            if (CurX > LineLength) {
                 CurX = LineLength > 0? LineLength - 1 : 0;
                 CurPos += LineLength > 2? LineLength - 1 : 0;
             } else {
                 //CurPos -= LineLength - CurX;
                 CurPos += OldX;
-            };
+            };*/
 
             if (CurY - RenderStart + (RenderStart >= 1? 1 : 0) > WinY - 4) ++ RenderStart;
 
