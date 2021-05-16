@@ -25,7 +25,7 @@ bool CompareKeyword(std::string p_Text, int p_idx) {
 
         "add", "sub", "mult", "div", "mod",
 
-        "out", "outch"
+        "out", "outch", "outstr"
     };
 
     for (int i = 0; i < (int)Keywords.size(); ++ i) {
@@ -65,7 +65,9 @@ CurY(0),
 CurX(0),
 RenderStart(0),
 RenderEnd(1),
-title(p_Title) {
+title(p_Title),
+Selected(false),
+SelectPos(0) {
     Frame = newwin(WinY, WinX, PosY, PosX);
     wbkgd(Frame, COLOR_PAIR(COLOR_EDITOR));
     wattron(Frame, COLOR_PAIR(COLOR_EDITOR));
@@ -125,6 +127,11 @@ void LOT::Temple::IDE::Editor::Draw() {
 
         if (end) break;
 
+        if (Selected) {
+            if (i == (CurPos >= SelectPos? SelectPos : CurPos)) wattron(Contents, A_REVERSE);
+            if (i > (CurPos >= SelectPos? CurPos : SelectPos)) wattroff(Contents, A_REVERSE);
+        };
+ 
         if (line >= RenderStart - 1) switch (contents[i]) {
             case 9: {
                 wprintw(Contents, "    ");
@@ -239,6 +246,7 @@ void LOT::Temple::IDE::Editor::Clear() {
     contents = "";
     CurPos = CurX = RenderStart = CurY = 0;
     RenderEnd = 1;
+    Selected = false;
 };
 
 std::string LOT::Temple::IDE::Editor::GetContents() {
@@ -384,19 +392,49 @@ void LOT::Temple::IDE::Editor::Input() {
         };
 
         case KEY_BACKSPACE: {
-            if (CurPos < 1) break;
+            int Old_SelectPos = SelectPos, 
+                Old_CurPos = CurPos,
+                TargX = 0,
+                TargY = 0,
+                TargPos = 0;
 
-            if (CurX < 1) {
-                -- CurY;
-                int LineLength = (int)GetLineAt(contents, CurPos - 2).length();
-                CurX = LineLength == 0? 1 : LineLength;
+            if (Selected) {
+                if (Old_CurPos >= Old_SelectPos) {
+                    TargPos = Old_SelectPos;
+                    TargX = SelectX;
+                    TargY = SelectY;
+                } else {
+                    TargPos = Old_CurPos;
+                    CurPos = Old_SelectPos;
+                    TargX = CurX;
+                    TargY = CurY;
+                };
             };
-            
-            contents.erase(CurPos - 1, 1);
-            -- CurPos; 
-            -- CurX;
 
-            if (CurY < RenderStart) -- RenderStart;
+            while (CurPos > 0) {
+                if (CurX < 1) {
+                    -- CurY;
+                    int LineLength = (int)GetLineAt(contents, CurPos - 2).length();
+                    CurX = LineLength == 0? 1 : LineLength;
+                };
+                
+                contents.erase(CurPos - 1, 1);
+                -- CurPos; 
+                -- CurX;
+
+                if (CurY < RenderStart) -- RenderStart;
+
+                if (!Selected) break;
+
+                if (CurPos <= TargPos) {
+                    CurPos = TargPos;
+                    CurX = TargX;
+                    CurY = TargY;
+                    Selected = false;
+
+                    break;
+                };
+            };
 
             break;
         };
@@ -408,6 +446,15 @@ void LOT::Temple::IDE::Editor::Input() {
             CurX = 0;
 
             if (CurY - RenderStart + (RenderStart >= 1? 1 : 0) > WinY - 4) ++ RenderStart;
+
+            break;
+        };
+
+        case CTRL('h'): {
+            Selected = !Selected;
+            SelectPos = CurPos;
+            SelectX = CurX;
+            SelectY = CurY;
 
             break;
         };

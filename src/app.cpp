@@ -55,7 +55,7 @@ void App::Initialization() {
     #define OPEN 3
     #define SAVE 4
 
-    Input = new LOT::Temple::IDE::InputBar(30, 3, WinX / 2 - 15, WinY / 2 - 1.5, "Input");
+    Input = new LOT::Temple::IDE::InputBar((WinX - 16), 3, WinX / 2 - (WinX - 16) / 2, WinY / 2 - 1.5, "Input");
 
     editors.push_back(new LOT::Temple::IDE::Editor(WinX, WinY - 1, 0, 1, DEFAULT_TITLE));
     EditorPointer = -1;
@@ -184,7 +184,7 @@ void App::ResetMainScr() {
     clear();
 
     mvprintw(1, 0, " _..__ ________  _________ _      _____\n|_|| _|  ___|  \\/\\_|| ___ \\ |    |  __/\n  ||| | |__ | . \\._/| |,/ /\\\\    | |__  \n  | |/|  _||| |\\/|_||  \\|/| \\|   |  _|| \n .| ||| |_``| | / _|| ||| | ||.._| |_|| \n \\\\_/\\\\____/\\_| ||_/\\_|   \\___||/\\____/ \n ||   |/        ||            //     ||\n");
-    printw(((std::string) "\n* Temple IDE\n* by LordOfTrident\n* current version " + VER + " (" + DATE + ") pre-release\n\nArrows - Navigate the cursor/Menu options\nCTRL + U - Update the current file\nCTRL + C - Fast exit\nESC - Switch between windows").c_str());
+    printw(((std::string) "\n* Temple IDE\n* by LordOfTrident\n* current version " + VER + " (" + DATE + ") pre-release\n\nArrows - Navigate the cursor/Menu options\nCTRL + U - Update the current file\nCTRL + H - Turn selection on/off\nESC - Switch between windows").c_str());
 
     refresh();
 };

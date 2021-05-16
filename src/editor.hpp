@@ -32,6 +32,9 @@ namespace LOT {
                     CurPos, CurY, CurX, 
                     RenderStart, RenderEnd;
                 std::string contents, title;
+
+                bool Selected;
+                int SelectPos, SelectY, SelectX;
                 //int SAVE;
             };
         };
