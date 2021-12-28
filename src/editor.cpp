@@ -44,9 +44,9 @@ bool CompareKeyword(std::string p_Text, int p_idx) {
         ) return true;*/
 
         if (p_Text.substr(p_idx, (int)Keywords[i].length()) == Keywords[i] 
-            && (p_Text[p_idx - 1] == NULL 
+            && (p_Text[p_idx - 1] == 0 
                 || ((int)std::string("\t \n \0").find(p_Text[p_idx - 1]) != -1)
-            ) && (p_Text[p_idx + (int)Keywords[i].length()] == NULL
+            ) && (p_Text[p_idx + (int)Keywords[i].length()] == 0
                 || ((int)std::string("\t \n \0").find(p_Text[p_idx + (int)Keywords[i].length()]) != -1)
             )
         ) return true;
